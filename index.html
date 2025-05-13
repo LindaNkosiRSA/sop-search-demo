@@ -1,23 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>PayShap SOP Search</title>
-    <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SOP Chat Search</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <h2>Search SOP</h2>
-            <input type="text" id="searchInput" placeholder="Enter keyword..." />
-            <button onclick="performSearch()">Search</button>
-        </aside>
-        <main class="main">
-            <div id="results"></div>
-        </main>
-    </div>
-    <script src="script.js"></script>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Search SOPs</h2>
+      <input type="text" id="searchInput" placeholder="Enter keyword..." />
+      <button onclick="performSearch()">Search</button>
+      <div id="loadingIndicator" class="loading">Searching...</div>
+    </aside>
+    <main class="chatbox" id="chatbox">
+      <div class="placeholder">Type a search to see results here.</div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

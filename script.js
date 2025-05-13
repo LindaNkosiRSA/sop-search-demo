@@ -1,34 +1,46 @@
-
-let sopData = [];
+let data = [];
 
 fetch("payshap_sop_data.json")
-    .then(response => response.json())
-    .then(data => sopData = data);
+  .then((response) => response.json())
+  .then((jsonData) => {
+    data = jsonData;
+  });
 
 function performSearch() {
-    const query = document.getElementById("searchInput").value.toLowerCase();
-    const resultsContainer = document.getElementById("results");
-    resultsContainer.innerHTML = "";
+  const query = document.getElementById("searchInput").value.toLowerCase().trim();
+  const chatbox = document.getElementById("chatbox");
+  const loader = document.getElementById("loadingIndicator");
 
-    const results = sopData.filter(item =>
-        item.title.toLowerCase().includes(query) ||
-        item.content.toLowerCase().includes(query)
+  chatbox.innerHTML = "";
+  loader.style.display = "block";
+
+  setTimeout(() => {
+    loader.style.display = "none";
+
+    if (!query) {
+      chatbox.innerHTML = "<div class='placeholder'>Please enter a keyword.</div>";
+      return;
+    }
+
+    const results = data.filter((item) =>
+      item.content.toLowerCase().includes(query)
     );
 
     if (results.length === 0) {
-        resultsContainer.innerHTML = "<p>No results found.</p>";
-        return;
+      chatbox.innerHTML = `<div class="bubble user">You: ${query}</div><div class="bubble response"><div class="bubble-header">SOP Result</div>No relevant sections found.</div>`;
+      return;
     }
 
-    results.forEach(result => {
-        const div = document.createElement("div");
-        div.className = "bubble";
-        div.innerHTML = `<h3>${result.title}</h3><p>${highlight(result.content, query)}</p>`;
-        resultsContainer.appendChild(div);
+    results.forEach((item) => {
+      const userBubble = `<div class="bubble user">You: ${query}</div>`;
+      const resultBubble = `
+        <div class="bubble response">
+          <div class="bubble-header">SOP Result</div>
+          ${item.content}
+        </div>`;
+      chatbox.innerHTML += userBubble + resultBubble;
     });
-}
 
-function highlight(text, keyword) {
-    const re = new RegExp("(" + keyword + ")", "gi");
-    return text.replace(re, "<mark>$1</mark>");
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }, 800);
 }
